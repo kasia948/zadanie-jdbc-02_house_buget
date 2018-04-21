@@ -3,17 +3,34 @@ public class Transaction {
     private String type;
     private String description;
     private double amount;
-    private sDate date;
+    private int day;
+    private int month;
+    private int year;
 
-    public Transaction(long id, String type, String description, double amount, sDate date) {
+    public Transaction() {
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                ", description='" + description + '\'' +
+                ", amount=" + amount +
+                ", day=" + day +
+                ", month=" + month +
+                ", year=" + year +
+                '}';
+    }
+
+    public Transaction(long id, String type, String description, double amount, int day, int month, int year) {
         this.id = id;
         this.type = type;
         this.description = description;
         this.amount = amount;
-        this.date = date;
-    }
-
-    public Transaction() {
+        this.day = day;
+        this.month = month;
+        this.year = year;
     }
 
     public long getId() {
@@ -48,12 +65,28 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public sDate getDate() {
-        return date;
+    public int getDay() {
+        return day;
     }
 
-    public void setDate(sDate date) {
-        this.date = date;
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 
     @Override
@@ -65,13 +98,25 @@ public class Transaction {
 
         if (id != that.id) return false;
         if (Double.compare(that.amount, amount) != 0) return false;
+        if (day != that.day) return false;
+        if (month != that.month) return false;
+        if (year != that.year) return false;
         if (!type.equals(that.type)) return false;
-        if (!description.equals(that.description)) return false;
-        return date.equals(that.date);
+        return description.equals(that.description);
     }
 
     @Override
     public int hashCode() {
-        return 0;
+        int result;
+        long temp;
+        result = (int) (id ^ (id >>> 32));
+        result = 31 * result + type.hashCode();
+        result = 31 * result + description.hashCode();
+        temp = Double.doubleToLongBits(amount);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + day;
+        result = 31 * result + month;
+        result = 31 * result + year;
+        return result;
     }
 }
